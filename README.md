@@ -99,14 +99,12 @@ EDITOR=nvim visudo                          # Edit visudo file. (Find and uncomm
 
 # Remove the old mkinitcpio.conf and write necessary values
 # Feel free to write the values by hand.
-rm /etc/mkinitcpio.conf
-echo "MODULES=(btrfs)" >> /etc/mkinitcpio.conf
-echo "BINARIES=(/usr/bin/btrfs)" >> /etc/mkinitcpio.conf
-echo "FILES=()" >> /etc/mkinitcpio.conf
-# NOTE: 'resume' is for hibernation. You can remove it if you won't use hibernation.
-# It will be installed later on.
-echo "HOOKS=(base udev autodetect microcode modconf kms keyboard keymap block encrypt filesystems resume fsck)" >> /etc/mkinitcpio.conf
-
+cat > /etc/mkinitcpio.conf <<EOF
+	MODULES=(btrfs)
+	BINARIES=(/usr/bin/btrfs)
+	FILES=()
+	HOOKS=(base udev autodetect microcode modconf kms keyboard keymap block encrypt filesystems resume fsck)
+EOF
 mkinitcpio -P   # Generate system image based on the new mkinitcpio.conf file
 ```
 
