@@ -375,8 +375,8 @@ sudo systemctl enable --now fwupd-refresh.timer # Enable updater service
 ```bash
 sudo pacman -S hyprland hyprlang hyprpaper \
 hyprlock hypridle hyprpolkitagent \
-hyprshot kitty waybar swaync\
-thunar thunar-volman ttf-jetbrains-mono-nerd \
+hyprshot kitty waybar swaync \
+thunar thunar-volman gvfs ttf-jetbrains-mono-nerd \
 zip unzip unrar tumbler xdg-user-dirs xdg-desktop-portal-hyprland \
 ripgrep pavucontrol npm python nodejs tree-sitter-cli\
 libreoffice-fresh libreoffice-fresh-tr firefox btop gdu
