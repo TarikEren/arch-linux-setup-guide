@@ -261,7 +261,7 @@ sudo btrfs subvolume create /swap   # Create swap subvolume
 sudo btrfs filesystem mkswapfile \  # Create swapfile (Change size accordingly)
 --size 64g --uuid clear /swap/swapfile
 sudo swapon -p 0 /swap/swapfile
-sudo echo "/swap/swapfile none swap defaults,pri=0 0 0" >> /etc/fstab   # Append swap file to fstab
+sudo nvim /etc/fstab # Open fstab and append `/swap/swapfile none swap defaults,pri=0 0 0` as a new line
 sudo mkinitcpio -P                  # Re-create system images
 ```
 
