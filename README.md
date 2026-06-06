@@ -385,3 +385,11 @@ yay -S walker elephant elephant-desktopapplications # Walker app launcher
 
 start-hyprland  # And enjoy your working system
 ```
+
+### 8. Quality of Life
+
+#### Dark Theme: 
+```bash
+sudo pacman -S nwg-look
+nwg-look			# Select Adwaita-dark
+```
