@@ -43,8 +43,11 @@ cryptsetup luksFormat /dev/nvme0n1p2            # Create LUKS encrypted containe
 cryptsetup open /dev/nvme0n1p2 root             # Open the encrypted container as 'root'
 mkfs.btrfs /dev/mapper/root                     # Format partition as BTRFS
 mount /dev/mapper/root /mnt                     # Mount partition
-btrfs subvolume create /mnt/@ /mnt/@home \
-/mnt/@var_log /mnt/@var_cache                   # Create partitions
+btrfs subvolume create /mnt/@					# Create partitions
+btrfs subvolume create /mnt/@home
+btrfs subvolume create /mnt/@var_log
+btrfs subvolume create /mnt/@var_cache
+btrfs subvolume create /mnt/@snapshots
 umount /mnt                                     # Temporarily unmount the disk
 
 ### Mounting partitions ###
@@ -54,6 +57,7 @@ mount -o compress=zstd:1,noatime,subvol=@ /dev/mapper/root /mnt
 mount --mkdir -o compress=zstd:1,noatime,subvol=@home /dev/mapper/root /mnt/home
 mount --mkdir -o compress=zstd:1,noatime,subvol=@var_log /dev/mapper/root /mnt/var/log
 mount --mkdir -o compress=zstd:1,noatime,subvol=@var_cache /dev/mapper/root /mnt/var/cache
+mount --mkdir -o compress=zstd:1,noatime,subvol=@snapshots /dev/mapper/root /mnt/.snapshots
 mount --mkdir /dev/nvme0n1p1 /mnt/boot
 ```
 
@@ -273,6 +277,10 @@ sudo mkinitcpio -P                  # Re-create system images
 # Install the necessary programs
 sudo pacman -Syu snapper
 yay -S limine-snapper-sync limine-mkinitcpio-hook
+
+# Remove the pre-made snapshots subvolume
+sudo umount /.snapshots
+sudo rm -rf /.snapshots
 
 # Create snapper configs
 sudo snapper -c root create-config /
