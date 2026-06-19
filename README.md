@@ -401,3 +401,11 @@ start-hyprland  # And enjoy your working system
 sudo pacman -S nwg-look
 nwg-look			# Select Adwaita-dark
 ```
+
+### iwd Backend for NetworkManager:
+Create `/etc/NetworkManager/conf.d/wifi_backend.conf` and add
+```
+[device]
+wifi.backend=iwd
+```
+
