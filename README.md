@@ -387,7 +387,8 @@ hyprshot kitty waybar swaync \
 thunar thunar-volman gvfs ttf-jetbrains-mono-nerd \
 zip unzip unrar tumbler xdg-user-dirs xdg-desktop-portal-hyprland \
 ripgrep pavucontrol npm python nodejs tree-sitter-cli\
-libreoffice-fresh libreoffice-fresh-tr firefox btop gdu
+libreoffice-fresh libreoffice-fresh-tr firefox btop gdu \
+impala bluetui
 
 yay -S walker elephant elephant-desktopapplications # Walker app launcher
 
