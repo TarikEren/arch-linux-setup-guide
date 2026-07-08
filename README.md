@@ -403,10 +403,69 @@ sudo pacman -S nwg-look
 nwg-look			# Select Adwaita-dark
 ```
 
-### iwd Backend for NetworkManager:
+#### iwd Backend for NetworkManager:
 Create `/etc/NetworkManager/conf.d/wifi_backend.conf` and add
 ```
 [device]
 wifi.backend=iwd
 ```
 
+#### Signing secure boot keys for Windows and Arch Linux:
+1. Install `sbctl`
+```bash
+sudo pacman -S sbctl	# This will be used to sign the boot options
+sbctl status			# The `Firmware` field will have the text
+						# `Your firmware has known quirks` if it has
+						# any. Refer to that page if you want or
+						# proceed from this tutorial.
+```
+
+2. Enter firmware setup either using `systemctl reboot --firmware-setup` or pressing the setup key based on your motherboard (Usually delete, F2 or F8)
+
+3. Delete boot keys to enter "Setup Mode":
+	- In some MSI motherboards you need to:
+		- Set "Secure Boot Mode" to `Custom`
+  		- Check if you have the setting "Secure Boot Preset" or "Image Execution Policy":
+    		- If you have "Secure Boot Preset" set it to `Maximum Security`.
+      		- If you have "Image Execution Policy":
+           		- Change "Option ROM", "Removable Media" and "Fixed Media" fields to `Deny Execute` inside it.	  
+	- **Important:** Check if your BIOS has a setting that makes it enroll keys on startup and *disable* it.
+ 	- Find a setting that deletes boot keys or all secure boot variables.
+  	- Save and restart. 
+
+4. Check if Setup Mode is enabled:
+```bash
+sbctl status	# The setup mode field should be `Enabled`
+```
+If it is enabled, proceed with the tutorial. If not, check if you successfully deleted the boot keys/variables. Re-check if there is a setting that enrolls boot variables on reboot and disable it if you haven't.
+
+5. Create and enroll keys
+```bash
+sudo sbctl create-keys
+sudo sbctl enroll-keys --microsoft
+```
+
+6. Fix unsigned entries:
+There will be other entries that are not signed automatically (Like the EFI Fallback entry). You can either delete them or sign them yourself.
+
+- *If you want to clear unsigned entries, run:*
+```bash
+sudo nvim /boot/limine.conf
+```
+and delete or comment out any unsigned boot entries.
+
+- *For signing entries (The example uses the "EFI Fallback" entry):*
+```bash
+sudo nvim /etc/limine-entry-tool.conf	# Find line `ENABLE_LIMINE_FALLBACK`
+										# Uncomment it and set it to `no`
+sudo limine-install --fallback			# Re-generate the fallback binary
+b2sum /boot/limine.conf					# Copy the hash from this command
+sudo limine-enroll-config /boot/EFI/BOOT/BOOTX64.EFI <PASTE_YOUR_HASH_HERE>
+sudo sbctl sign -s /boot/EFI/BOOT/BOOTX64.EFI
+```
+- **IMPORTANT:** Run
+```bash
+sudo limine-enroll-config
+sudo limine-update
+```
+if you have edited `/boot/limine.conf`. Else it panics on boot.
