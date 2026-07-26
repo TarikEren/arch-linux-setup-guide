@@ -79,10 +79,9 @@ networkmanager iwd dhcpcd cryptsetup util-linux \
 
 # Feel free to add or remove packages here on out
 git bash-completion avahi acpi acpi_call acpid alsa-utils \
-nvim \ # You can swap nvim out with vim, nano or any text editor you want.
-pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber \
+nvim vim pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber \
 sof-firmware firewalld bluez bluez-utils cups openssh snap-pac \
-reflector man sudo rsync intel-ucode nvidia-open udisks2
+reflector man sudo rsync intel-ucode nvidia-open udisks2 rtkit
 ```
 
 ## 4. Configuring The System
