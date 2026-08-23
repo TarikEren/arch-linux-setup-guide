@@ -91,6 +91,7 @@ arch-chroot /mnt                            # 'Chroot' into system
 ln -sf /usr/share/zoneinfo/Europe/Istanbul /etc/localtime           # Set local time (Adjust if necessary)
 hwclock --systohc                           # Set hardware clock using the system clock
 echo -e "tr_TR.UTF-8 UTF-8\nen_US.UTF-8 UTF-8" > /etc/locale.gen    # Set locale (Adjust if necessary)
+locale-gen									# Generate locale
 echo LANG=en_US.UTF-8 > /etc/locale.conf    # Set system language (Adjust if necessary)
 echo KEYMAP=trq > /etc/vconsole.conf        # Set keyboard layout (Adjust if necessary)
 echo TarikEren > /etc/hostname              # Set hostname (Adjust)
